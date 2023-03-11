@@ -29,56 +29,87 @@ class _SubjectsState extends State<Subjects> {
         width: _width,
         height: _height,
         padding: EdgeInsets.symmetric(vertical: 10),
-        child: Questions(),
+        child: Questions(
+          quests: questions,
+        ),
       ),
     );
   }
 }
 
 class Questions extends StatelessWidget {
-  const Questions({super.key});
+  const Questions({super.key, required this.quests});
+  final Map quests;
 
   @override
   Widget build(BuildContext context) {
+    final List questions = quests['questions'];
     return Container(
+      height: 200,
       padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            child: Text(
-              "1. What is the capital of India?",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+      child: ListView.builder(
+        itemCount: questions.length,
+        itemBuilder: (BuildContext context, int index) {
+          // print(answers);
+          return Container(
+            // height: 300,
+            margin: EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  child: Text(
+                    '${index + 1}. ${questions[index]['question']}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                ),
+                Container(
+                  height: 450,
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                  child: GridView.builder(
+                    itemCount: quests['questions'][index]['answers'].length,
+                    // shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemBuilder: (BuildContext context, int index2) {
+                      List answers = quests['questions'][index]['answers'];
+                      print(answers[index2]);
+                      return Answers(
+                        anws: answers[index2],
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return Answers();
-              },
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }
 }
 
 class Answers extends StatelessWidget {
-  const Answers({super.key});
-
+  const Answers({super.key, required this.anws});
+  final Map anws;
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      height: 30,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      child: Text(
+        anws['answer'],
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+    );
   }
 }
