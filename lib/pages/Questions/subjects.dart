@@ -45,14 +45,12 @@ class Questions extends StatelessWidget {
   Widget build(BuildContext context) {
     final List questions = quests['questions'];
     return Container(
-      height: 200,
+      // height: 200,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: ListView.builder(
         itemCount: questions.length,
         itemBuilder: (BuildContext context, int index) {
-          // print(answers);
           return Container(
-            // height: 300,
             margin: EdgeInsets.symmetric(vertical: 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -65,7 +63,7 @@ class Questions extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 450,
+                  height: 150,
                   padding: EdgeInsets.symmetric(vertical: 10),
                   child: GridView.builder(
                     itemCount: quests['questions'][index]['answers'].length,
@@ -73,6 +71,7 @@ class Questions extends StatelessWidget {
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 3, //set your item width and height
                       crossAxisCount: 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
@@ -101,11 +100,12 @@ class Answers extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 30,
+      alignment: Alignment.centerLeft,
+      height: 40,
       decoration: BoxDecoration(
         color: Colors.grey,
       ),
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Text(
         anws['answer'],
         style: TextStyle(fontSize: 20, color: Colors.white),
